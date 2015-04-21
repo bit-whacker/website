@@ -16,10 +16,16 @@ image: /images/blog/arti-workshop-cukeup-2015.jpg
 abstract: "For the first time ever, CukeUp is coming to the Asia-Pacific region."
 ---
 
-# CukeUp Australia 2015
-
 It's gonna be amazing BBQ etc.
+
+## Call for proposals
+
+TBC
+
+## Speakers
+
+TBC.
 
 ## Where is it?
 
-{{ location['name'] }}
+The conference will be somewhere in Sydney, exact location TBC.

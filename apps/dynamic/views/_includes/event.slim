@@ -14,7 +14,8 @@ html lang="en"
 
           div
             div.meta
-              span.date= locals['date'].strftime('%b %-d, %Y')
+              span.date 
+                = "Proposed date: #{locals['start_time'].strftime('%b %-d, %Y')} - #{locals['end_time'].strftime('%b %-d, %Y')}"
             == yield
 
     == slim '_includes/footer'.to_sym, locals: locals
