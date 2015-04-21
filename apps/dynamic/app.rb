@@ -10,6 +10,7 @@ require_relative 'page'
 require_relative 'config'
 
 Slim::Engine.set_options(pretty: ENV['RACK_ENV'] != 'production')
+Slim::Engine.disable_option_validator!
 
 # Sinatra app that displays a Jekyll app dynamically.
 #
