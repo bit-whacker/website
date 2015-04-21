@@ -1,0 +1,14 @@
+---
+title: Events
+nav: 'events'
+---
+
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      h1 Events
+      ul.blog-list
+        - site['events'].each do |event|
+          li
+            span.date= event.date.strftime("%b %d, %Y")
+            a< href=event.path = event.title
