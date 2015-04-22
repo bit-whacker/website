@@ -8,14 +8,11 @@ html lang="en"
 
     div.container
       div.row
-        div.col-md-10.col-md-offset-1.js-one-column.post role="main"
+        div.col-md-10.col-md-offset-1.js-one-column.event role="main"
 
           h2= locals['title']
 
-          div
-            div.meta
-              span.date 
-                = "Proposed date: #{locals['start_time'].strftime('%b %-d, %Y')} - #{locals['end_time'].strftime('%b %-d, %Y')}"
-            == yield
+          == yield
 
     == slim '_includes/footer'.to_sym, locals: locals
+    == js :main
