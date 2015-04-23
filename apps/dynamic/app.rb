@@ -76,7 +76,7 @@ module Dynamic
     require 'cucumber/website/events'
     calendar_logger = Logger.new($stderr)
     calendars = CONFIG['site']['calendars'].map { |url| Cucumber::Website::Calendar.new(url, calendar_logger) }
-    CONFIG['site']['events'] = Cucumber::Website::Events.new(calendars, pages.select(&:event?))
+    CONFIG['site']['events'] = Cucumber::Website::Events.new(pages.select(&:event?), calendars)
 
     pages.each do |page|
       next unless page.primary?

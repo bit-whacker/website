@@ -1,3 +1,5 @@
+$: << File.dirname(__FILE__) + '/lib'
+
 require_relative 'apps/dynamic/reference'
 
 Dir['apps/*'].each do |path|

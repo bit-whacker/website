@@ -20,5 +20,17 @@ module Cucumber
         @logger.warn exception.to_s
       end
     end
+
+    # Stub used for specs and scenarios
+    class FakeCalendar
+      def initialize(data)
+        @data = data
+      end
+
+      def events
+        calendars = Icalendar::Parser.new(@data, true).parse
+        calendars.map(&:events).flatten
+      end
+    end
   end
 end
