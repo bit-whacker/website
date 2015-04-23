@@ -81,7 +81,7 @@ module Website
     CONFIG['site']['events'] = events
 
     configure(:development, :production) do
-      events.start
+      events.start(CONFIG['site']['calendar_refresh_interval'])
     end
 
     pages.each do |page|

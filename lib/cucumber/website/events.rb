@@ -32,13 +32,15 @@ module Cucumber
         end
       end
 
-      def start
+      def start(calendar_refresh_interval)
         @calendars.each do |calendar|
           Thread.new do
             loop do
               calendar.refresh
               sync
-              sleep 1 # 1 minute
+              # modify sleep time a little to distribute refresh times
+              sleep_time = calendar_refresh_interval + rand*calendar_refresh_interval*0.1
+              sleep sleep_time
             end
           end
         end
