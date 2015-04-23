@@ -24,16 +24,30 @@ module Cucumber::Website
     end
 
     describe "as regular page" do
-      it "has an url" do
+      let(:page) { Page.new(config, File.join(views, 'school.slim'), views) }
+
+      it "has a url" do
         page = Page.new(config, File.join(views, 'school.slim'), views)
-        #expect(post.url).to eq("")
+        expect(page.url).to eq("https://cukes.info/school")
       end
     end
 
     describe "as blog post" do
-      it "has an url" do
-        page = Page.new(config, File.join(views, '_posts/matt-on-test-talks.md'), views)
-        #expect(post.url).to eq("")
+      let(:page) { Page.new(config, File.join(views, '_posts/matt-on-test-talks.md'), views) }
+
+      it "has a title" do
+        expect(page.title).to eq("Matt Wynne interviewed by TestTalks")
+      end
+
+      it "has a url" do
+        expect(page.url).to eq("https://cukes.info/blog/2015/01/13/matt-on-test-talks")
+      end
+    end
+
+    describe "as event" do
+      it "has a title" do
+        page = Page.new(config, File.join(views, 'events/cukeup-australia-2015.slim'), views)
+        expect(page.title).to eq("cukeup-australia-2015")
       end
     end
   end

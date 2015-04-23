@@ -43,6 +43,9 @@ module Cucumber
         @template_path = file[views_dir.length+1..-1]
         @template_name = file[views_dir.length+1...-ext.length]
         @engine        = ENGINES[ext]
+
+        # Set some defaults
+        @front_matter['title'] ||= @template_name.split('/')[-1]
       end
 
       def method_missing(name, *args)
