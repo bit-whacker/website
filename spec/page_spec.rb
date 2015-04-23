@@ -16,6 +16,13 @@ module Cucumber::Website
       expect(page.arbitrary_frontmatter_attribute).to eq 'arbitrary frontmatter value'
     end
 
+    it "can set attribute on page" do
+      template_path = File.dirname(__FILE__) + '/fixtures/some_page.md'
+      page = Page.new(config, template_path, views)
+      page.new_attribute = 'yo'
+      expect(page.new_attribute).to eq 'yo'
+    end
+
     describe "as regular page" do
       it "has an url" do
         page = Page.new(config, File.join(views, 'school.slim'), views)

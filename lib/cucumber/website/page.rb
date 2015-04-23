@@ -27,26 +27,39 @@ module Cucumber
 
       include Utils
 
-      attr_reader :engine, :locals
+      attr_reader :engine
 
       def initialize(config, file, views_dir)
         @config        = config
         @file          = file
 
+        @front_matter = if has_yaml_header?
+          YAML.load_file(@file)
+        else
+          {}
+        end
+
         ext            = File.extname(file)
         @template_path = file[views_dir.length+1..-1]
         @template_name = file[views_dir.length+1...-ext.length]
         @engine        = ENGINES[ext]
-
-        @locals = deep_merge_hashes(config, front_matter)
-        @locals['locals'] = @locals # So slim can pass locals to _includes
-        @locals['template_path'] = @template_path
       end
 
       def method_missing(name, *args)
-        front_matter.fetch(name.to_s) do
-          raise NoMethodError, name, caller
+        if name.to_s =~ /(.*)=$/
+          @front_matter[$1] = args[0]
+        else
+          @front_matter.fetch(name.to_s) do
+            raise NoMethodError, name, caller
+          end
         end
+      end
+
+      def locals
+        locals = deep_merge_hashes(@config, @front_matter)
+        locals['locals'] = locals # So slim can pass locals to _includes
+        locals['template_path'] = @template_path
+        locals
       end
 
       def path
@@ -79,7 +92,7 @@ module Cucumber
       end
 
       def cacheable?
-        front_matter.fetch('cacheable') { true }
+        @front_matter.fetch('cacheable') { true }
       end
 
       def url
@@ -97,7 +110,7 @@ module Cucumber
       end
 
       def headers
-        front_matter['headers'] || {}
+        @front_matter['headers'] || {}
       end
 
       def post?
@@ -113,14 +126,6 @@ module Cucumber
       end
 
     private
-
-      def front_matter
-        if has_yaml_header?
-          YAML.load_file(@file)
-        else
-          {}
-        end
-      end
 
       def has_yaml_header?
         !!(File.open(@file, 'rb') { |f| f.read(5) } =~ /\A---\r?\n/)

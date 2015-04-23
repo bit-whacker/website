@@ -18,6 +18,8 @@ gem 'rollbar'
 gem 'rack-reverse-proxy'
 gem 'rack-rewrite'
 gem 'icalendar'
+# TODO: Need this to get timezone support with icalendar
+#gem 'activesupport'
 
 group :development do
   gem 'rake'
