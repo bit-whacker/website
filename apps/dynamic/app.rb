@@ -32,6 +32,9 @@ Slim::Engine.disable_option_validator!
 #
 module Dynamic
   class App < Sinatra::Application
+    def self.process_ical_events(ical_data)
+    end
+
     set :root,  File.dirname(__FILE__)
 
     # TODO: do we need these? Won't they be inferred from the root anyway?

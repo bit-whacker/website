@@ -25,6 +25,8 @@ end
 
 group :test do
   gem 'rspec'
-  gem 'rack-test'
   gem 'nokogiri', '1.6.6.2'
+  gem 'cucumber'
+  gem 'chronic'
+  gem 'capybara'
 end
