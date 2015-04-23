@@ -21,7 +21,7 @@ DTEND;VALUE=DATE:20150424
 GEO:37.7802468;-122.3967115
 END:VEVENT
     ICAL
-    Dynamic::App::CONFIG['site']['events'] =
+    Cucumber::Website::App::CONFIG['site']['events'] =
       Cucumber::Website::Events.new(event_pages=[], calendars=[Cucumber::Website::FakeCalendar.new(ical_data)])
   end
 end

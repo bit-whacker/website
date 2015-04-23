@@ -14,7 +14,9 @@ module Cucumber
       end
 
       def refresh
+        @logger.debug "Fetching events from #{@url}"
         @calendars = Icalendar::Parser.new(open(@url), true).parse
+        @logger.debug "Fetched #{events.length} events from #{@url}"
         self
       rescue => exception
         @logger.warn exception.to_s

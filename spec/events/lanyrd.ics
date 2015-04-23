@@ -19,8 +19,9 @@ BEGIN:VEVENT
 SUMMARY;CHARSET=utf-8:CukeUp Australia
 LOCATION;CHARSET=utf-8:Sydney\, Australia
 URL:http://lanyrd.com/2015/cukeup-australia-2015/
-UID:b337ee5afe0273b48315067914c75e30fcd5227c
+UID:f3eaaf80b064f17a1e433c7adc1927ce188604c3
 DESCRIPTION:For the first time ever\, CukeUp is coming to the Asia-Pacific region\n\nhttp://lanyrd.com/cfkrgp
 DTSTART;VALUE=DATE:20151203
 DTEND;VALUE=DATE:20151205
 END:VEVENT
+END:VCALENDAR

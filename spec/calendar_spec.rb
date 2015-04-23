@@ -5,7 +5,7 @@ module Cucumber::Website
     let(:url) { File.expand_path(File.dirname(__FILE__) + '/events/lanyrd.ics') }
     let(:bad_url) { File.expand_path(File.dirname(__FILE__) + '/events/bad.ics') }
     let(:calendar) { Calendar.new(url, logger) }
-    let(:logger) { double }
+    let(:logger) { double.as_null_object }
 
     it "starts out with no events" do
       expect(calendar.events).to be_empty

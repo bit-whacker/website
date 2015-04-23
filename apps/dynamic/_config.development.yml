@@ -1,4 +1,5 @@
 url: http://localhost:5000
 
 calendars:
-  - spec/events/lanyrd.ics
+  - http://lanyrd.com/guides/cucumber-events/cucumber-events.ics
+  - http://www.meetup.com/BDDLondon/events/ical/

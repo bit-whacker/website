@@ -1,7 +1,5 @@
 $: << File.dirname(__FILE__) + '/lib'
 
-require_relative 'apps/dynamic/reference'
-
 Dir['apps/*'].each do |path|
   require_relative path + '/app'
 end
@@ -15,5 +13,5 @@ end
 
 use Api::App
 use CucumberEclipse::App
-use Dynamic::App
+use Cucumber::Website::App
 run Modern::NotFound

@@ -1,14 +1,20 @@
 require 'yaml'
-require_relative '../apps/dynamic/page'
-require_relative '../apps/dynamic/config'
+require 'cucumber/website/page'
+require 'cucumber/website/config'
 
-module Dynamic
+module Cucumber::Website
   describe Page do
     root = File.expand_path(File.join(File.dirname(__FILE__), "/../apps/dynamic"))
     views = File.join(root, 'views')
 
     extend Config
     config = load_config('test')
+
+    it "exposes frontmatter as attributes" do
+      template_path = File.dirname(__FILE__) + '/fixtures/some_page.md'
+      page = Page.new(config, template_path, views)
+      expect(page.arbitrary_frontmatter_attribute).to eq 'arbitrary frontmatter value'
+    end
 
     describe "as regular page" do
       it "has an url" do
