@@ -17,6 +17,7 @@ gem 'rack-contrib'
 gem 'rollbar'
 gem 'rack-reverse-proxy'
 gem 'rack-rewrite'
+gem 'icalendar'
 
 group :development do
   gem 'rake'

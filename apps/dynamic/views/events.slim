@@ -11,9 +11,6 @@ nav: 'events'
         | Discover meetups, conferences and trainings where you can meet like-minded Cucumber and BDD practitioners.
       ul.blog-list
         - site['events'].each do |event|
-          li
-            span.date= event.date.strftime("%b %d, %Y")
-            a< href=event.path = event.title
-
-        li.event
-          a.summary< href='foo' Matt's Agile 2015 Session
+          li.event
+            span.date= event.dtstart.strftime("%b %d, %Y")
+            a.summary< href=event.url = event.summary

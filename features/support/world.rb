@@ -1,3 +1,15 @@
+require 'icalendar'
+class FakeCalendar
+  def initialize(data)
+    @data = data
+  end
+
+  def events
+    calendars = Icalendar::Parser.new(@data, true).parse
+    calendars.map(&:events).flatten
+  end
+end
+
 module World
   def create_event(attributes)
     ical_data = <<-ICAL
@@ -13,13 +25,17 @@ SUMMARY;CHARSET=utf-8:#{attributes[:summary]}
 LOCATION;CHARSET=utf-8:Sauce Labs\, 539 Bryant Street #303 San Francisco\, CA 94107 USA\, 94107
 URL:http://lanyrd.com/2015/bdd-kickstart-san-francisco/
 UID:bbf17a9ff7fa28c427aac86fbc45604d48e6051e
-DESCRIPTION:Three-day course on Behaviour-Driven Development\n\nhttp://lanyrd.com/cdcbdg
+DESCRIPTION:Three-day course on Behaviour-Driven Development
 DTSTART;VALUE=DATE:#{attributes[:start_time].strftime("%Y%m%d")}
 DTEND;VALUE=DATE:20150424
 GEO:37.7802468;-122.3967115
 END:VEVENT
     ICAL
-    Dynamic::App.process_ical_events(ical_data)
+    event_pages = []
+    calendars = [
+      FakeCalendar.new(ical_data)
+    ]
+    Dynamic::App::CONFIG['site']['events'] = Cucumber::Website::Events.new(event_pages, calendars)
   end
 end
 

@@ -32,8 +32,6 @@ Slim::Engine.disable_option_validator!
 #
 module Dynamic
   class App < Sinatra::Application
-    def self.process_ical_events(ical_data)
-    end
 
     set :root,  File.dirname(__FILE__)
 
@@ -74,9 +72,11 @@ module Dynamic
       b.date <=> a.date
     end
 
-    CONFIG['site']['events'] = pages.select(&:event?).sort do |a, b|
-      b.start_time <=> a.start_time
-    end
+    require 'cucumber/website/calendar'
+    require 'cucumber/website/events'
+    calendar_logger = Logger.new($stderr)
+    calendars = CONFIG['site']['calendars'].map { |url| Cucumber::Website::Calendar.new(url, calendar_logger) }
+    CONFIG['site']['events'] = Cucumber::Website::Events.new(calendars, pages.select(&:event?))
 
     pages.each do |page|
       next unless page.primary?

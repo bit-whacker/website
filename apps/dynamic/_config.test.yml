@@ -1,1 +1,4 @@
 url: https://cukes.info
+
+calendars:
+  - spec/events/lanyrd.ics
