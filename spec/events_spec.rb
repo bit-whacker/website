@@ -7,14 +7,14 @@ module Cucumber::Website
   describe Events do
     include Config
 
+    let(:config) { load_config('test') }
+    let(:views_dir) { File.dirname(__FILE__) + '/../apps/dynamic/views' }
+    let(:event_pages) { Page.all(config, views_dir).select(&:event?) }
+    let(:lanyrd) { ical = IO.read(File.dirname(__FILE__) + '/events/lanyrd.ics') }
+    let(:bdd_london) { ical = IO.read(File.dirname(__FILE__) + '/events/bdd-london.ics') }
+
     it "replaces event url with local page when we have one that matches" do
-      ical = File.dirname(__FILE__) + '/events/lanyrd.ics'
-
-      config = load_config('test')
-      views_dir = File.dirname(__FILE__) + '/../apps/dynamic/views'
-      event_pages = Page.all(config, views_dir).select(&:event?)
-
-      events = Cucumber::Website::Events.new(event_pages, calendars=[Cucumber::Website::FakeCalendar.new(IO.read(ical))])
+      events = Cucumber::Website::Events.new(event_pages, calendars=[Cucumber::Website::FakeCalendar.new(lanyrd)])
       events.sync
 
       cukeup_australia = events.to_a[1]
@@ -23,13 +23,7 @@ module Cucumber::Website
     end
 
     it "replaces page attributes with attributes from event" do
-      ical = File.dirname(__FILE__) + '/events/lanyrd.ics'
-
-      config = load_config('test')
-      views_dir = File.dirname(__FILE__) + '/../apps/dynamic/views'
-      event_pages = Page.all(config, views_dir).select(&:event?)
-
-      events = Cucumber::Website::Events.new(event_pages, calendars=[Cucumber::Website::FakeCalendar.new(IO.read(ical))])
+      events = Cucumber::Website::Events.new(event_pages, calendars=[Cucumber::Website::FakeCalendar.new(lanyrd)])
       events.sync
 
       cukeup_australia_page = event_pages.find {|page| page.title == 'CukeUp Australia'}
@@ -39,17 +33,11 @@ module Cucumber::Website
     end
 
     it "updates after the ical feed changes" do
-      ical = File.dirname(__FILE__) + '/events/lanyrd.ics'
-
-      config = load_config('test')
-      views_dir = File.dirname(__FILE__) + '/../apps/dynamic/views'
-      event_pages = Page.all(config, views_dir).select(&:event?)
-
-      calendars = [Cucumber::Website::FakeCalendar.new(IO.read(ical))]
+      calendars = [Cucumber::Website::FakeCalendar.new(lanyrd)]
       events = Cucumber::Website::Events.new(event_pages, calendars)
       events.sync
 
-      calendars[0] = Cucumber::Website::FakeCalendar.new(IO.read(ical).gsub(/CukeUp Australia/m, 'CukeUp Australia Updated'))
+      calendars[0] = Cucumber::Website::FakeCalendar.new(lanyrd.gsub(/CukeUp Australia/m, 'CukeUp Australia Updated'))
       events.sync
 
       cukeup_australia_page = event_pages.find {|page| page.title == 'CukeUp Australia Updated'}
