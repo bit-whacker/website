@@ -44,7 +44,7 @@ module Cucumber
       end
 
       def method_missing(name, *args)
-        fm.fetch(name.to_s) do
+        front_matter.fetch(name.to_s) do
           raise NoMethodError, name, caller
         end
       end
@@ -79,19 +79,7 @@ module Cucumber
       end
 
       def cacheable?
-        fm.fetch('cacheable') { true }
-      end
-
-      def title
-        fm['title']
-      end
-
-      def author
-        fm['author']
-      end
-
-      def date
-        fm['date']
+        front_matter.fetch('cacheable') { true }
       end
 
       def url
@@ -145,10 +133,6 @@ module Cucumber
         content = File.read(@file)
         # $' is what follows the match - AKA $POSTMATCH
         content =~ YAML_FRONT_MATTER_REGEXP ? $' : content
-      end
-
-      def fm
-        front_matter
       end
 
       def source

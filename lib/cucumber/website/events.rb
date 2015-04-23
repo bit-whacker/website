@@ -14,7 +14,10 @@ module Cucumber
               result = event_page.ical_url == event.url.to_s
             end
 
-            event.url = Icalendar::Values::Uri.new(matching_event_page.url) if matching_event_page
+            if matching_event_page
+              event.url = Icalendar::Values::Uri.new(matching_event_page.url)
+              matching_event_page.title = event.summary
+            end
             block.call(event)
           end
         end
