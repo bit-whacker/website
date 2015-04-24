@@ -16,10 +16,22 @@ module Cucumber
       def refresh
         @logger.debug "Fetching events from #{@url}"
         @calendars = Icalendar::Parser.new(open(@url), true).parse
+        tweak
         @logger.debug "Fetched #{events.length} events from #{@url}"
         self
       rescue => exception
         @logger.warn exception.to_s
+      end
+
+      def tweak
+        @calendars.each do |calendar|
+          calendar.events.each do |event|
+            if calendar.prodid == '-//Meetup//RemoteApi//EN'
+              meetup_name = (calendar.x_wr_calname[0] || '').split(' - ')[1]
+              event.summary = [meetup_name, event.summary].compact.join(': ')
+            end
+          end
+        end
       end
     end
 

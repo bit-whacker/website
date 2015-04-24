@@ -22,6 +22,8 @@ module Cucumber::Website
       expect(cukeup_australia.url.class).to eq(Icalendar::Values::Uri)
     end
 
+    it "creates aggregated ical feed"
+
     it "replaces page attributes with attributes from event" do
       events = Cucumber::Website::Events.new(event_pages, calendars=[Cucumber::Website::FakeCalendar.new(lanyrd)])
       events.sync
@@ -43,6 +45,5 @@ module Cucumber::Website
       cukeup_australia_page = event_pages.find {|page| page.title == 'CukeUp Australia Updated'}
       expect(cukeup_australia_page).to_not be_nil
     end
-
   end
 end

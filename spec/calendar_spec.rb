@@ -2,24 +2,28 @@ require 'cucumber/website/calendar'
 
 module Cucumber::Website
   describe Calendar do
-    let(:url) { File.expand_path(File.dirname(__FILE__) + '/events/lanyrd.ics') }
-    let(:bad_url) { File.expand_path(File.dirname(__FILE__) + '/events/bad.ics') }
-    let(:calendar) { Calendar.new(url, logger) }
+    let(:lanyrd)       { Calendar.new(File.expand_path(File.dirname(__FILE__) + '/events/lanyrd.ics'), logger) }
+    let(:meetup)       { Calendar.new(File.expand_path(File.dirname(__FILE__) + '/events/bdd-london.ics'), logger) }
+    let(:bad_calendar) { Calendar.new(File.expand_path(File.dirname(__FILE__) + '/events/bad.ics'), logger) }
+
     let(:logger) { double.as_null_object }
 
     it "starts out with no events" do
-      expect(calendar.events).to be_empty
+      expect(lanyrd.events).to be_empty
     end
 
     it "fetches events from the URL when refreshed" do
-      expect(calendar.refresh.events).to_not be_empty
+      expect(lanyrd.refresh.events).to_not be_empty
+    end
+
+    it "prepends Meetup name to meetup.com events" do
+      expect(meetup.refresh.events[0].summary).to eq('BDD London: [June meetup]')
     end
 
     it "logs when refresh fails to parse the data" do
-      bad_calendar = Calendar.new(bad_url, logger)
       expect(logger).to receive(:warn)
       bad_calendar.refresh
-      expect(calendar.events).to be_empty
+      expect(bad_calendar.events).to be_empty
     end
   end
 end
