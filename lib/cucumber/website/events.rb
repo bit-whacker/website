@@ -49,7 +49,7 @@ module Cucumber
     private
 
       def events
-        @events ||= @calendars.map(&:events).flatten
+        @events ||= @calendars.map(&:events).flatten.sort { |e1, e2| e1.dtstart <=> e2.dtstart }
       end
     end
   end
