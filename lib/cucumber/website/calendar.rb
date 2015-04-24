@@ -26,6 +26,7 @@ module Cucumber
       def tweak
         @calendars.each do |calendar|
           calendar.events.each do |event|
+            # Meetup.com events' summaries are tweaked to have the Meetup name as a prefix
             if calendar.prodid == '-//Meetup//RemoteApi//EN'
               meetup_name = (calendar.x_wr_calname[0] || '').split(' - ')[1]
               event.summary = [meetup_name, event.summary].compact.join(': ')
